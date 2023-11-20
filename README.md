@@ -29,4 +29,4 @@ If the call is invalid, the response should be "invalid"
 In the case other errors occur, or functionality is not as expected, please contact the developer.
 
 Below is a link to a diagram illustrating the communication between microservice and client:
-https://media.discordapp.net/attachments/1023665771466981466/1176273079714992258/uml_sequence_diagram.png?ex=656e44ac&is=655bcfac&hm=432cc8e5a3520edb04ad467db9e53affef26f251de0909330f8f112c7fab2e1f&=&width=2160&height=978
+https://imgur.com/a/wIY4VWP

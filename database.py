@@ -8,7 +8,6 @@ locationData = {
 }
 
 def main():
-    loops = 0
     while True:
         time.sleep(1)
         f = open("branch-booking.txt", "r")
@@ -22,39 +21,50 @@ def main():
             continue
         except ValueError:
             pass
-        request = n.split(',')
-        response = "invalid"
-        try:
-            location = locationData[request[0]]
-        except KeyError:
-            f.close()
-            f = open("branch-booking.txt", "w")
-            f.write(str(response))
-            f.close()
-            continue
+        f.close()
+        dataCheck(n)
+
+def dataCheck(line):
+    request = line.lower().split(',')
+    response = "invalid"
+    try:
+        location = locationData[request[0]]
+    except KeyError:
+        writeResponse(response)
+        return
+    if len(request) > 2:
+        writeResponse(response)
+        return
+    if len(request) == 2:
         try:
             branch = int(request[1])
+        except ValueError:
+            writeResponse(response)
+            return
+        vacancy = 0
+        try:
+            vacancy = location[branch]
         except IndexError:
             pass
-        if len(request) == 1:
-            for i in range(len(location)):
-                if location[i] != 0:
-                    response = i
-                    break
-        else:
-            vacancy = 0
-            try:
-                vacancy = location[branch]
-            except IndexError:
-                pass
 
-            if vacancy != 0:
-                location[branch] -= 1
-                response = "valid"
-        f.close()
-        f = open("branch-booking.txt", "w")
-        f.write(str(response))
-        f.close()
+        if vacancy != 0:
+            location[branch] -= 1
+            response = "valid"
+    if len(request) == 1:
+        for i in range(len(location)):
+            if location[i] != 0:
+                response = i
+                break
+        
+    writeResponse(response)
+    return
+    
+
+def writeResponse(resp):
+    f = open("branch-booking.txt", "w")
+    f.write(str(resp))
+    f.close()
+    return
             
 if __name__ == "__main__":
     main()

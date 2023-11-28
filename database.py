@@ -12,7 +12,7 @@ def main():
         time.sleep(1)
         f = open("branch-booking.txt", "r")
         n = f.read()
-        if n == "valid" or n == "invalid":
+        if n == "valid" or n == "invalid" or n == "removed":
             continue
         if n == "":
             continue
@@ -32,10 +32,22 @@ def dataCheck(line):
     except KeyError:
         writeResponse(response)
         return
-    if len(request) > 2:
+    if len(request) > 3:
         writeResponse(response)
         return
-    if len(request) == 2:
+    
+    elif len(request) == 3:
+        try:
+            branch = int(request[1])
+            added = int(request[2])
+        except ValueError:
+            writeResponse(response)
+            return
+        
+        location[branch] =+ added
+        response = "removed"
+
+    elif len(request) == 2:
         try:
             branch = int(request[1])
         except ValueError:
@@ -50,7 +62,8 @@ def dataCheck(line):
         if vacancy != 0:
             location[branch] -= 1
             response = "valid"
-    if len(request) == 1:
+
+    elif len(request) == 1:
         for i in range(len(location)):
             if location[i] != 0:
                 response = i
